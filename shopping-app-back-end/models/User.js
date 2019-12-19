@@ -10,10 +10,16 @@ const userSchema = new Schema({
           min: 5,
           max: 30
      },
+     email:{
+          required: true,
+          type: String,
+          unique: true
+     },   
      password: {
           type: String,
           required: true,
-          min: 6
+          min: 6,
+          max: 30
      },
      createdDate: {
           type: Date,

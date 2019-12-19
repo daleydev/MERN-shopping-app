@@ -19,9 +19,11 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 // routes
-const registerRouter = require('./routes/register')
+const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
 
-app.use('/', registerRouter);
+app.use('/register', registerRouter);
+app.use('/login', loginRouter);
 
 
 app.get('/',(req,res)=>res.send('home page'));

@@ -7,22 +7,29 @@ const Joi = require('@hapi/joi');
 
 const schema = Joi.object({
      username: Joi.string().min(3).required(),
+     email: Joi.string().min(6).max(30).required().email(),
      password: Joi.string().min(6).required()
 })
 
-router.post('/register', async (req,res) => {
+router.post('/', async (req,res) => {
      // Validataion   
      const {error} = schema.validate(req.body);
      if (error) return res.status(400).send(error);
+
+     const emailExist = await User.findOne({ email: req.body.email });
+     if (emailExist) return res.status(400).send('Email already exists');
      
      // Hashing password
      const salt = await bcrypt.genSalt(10);
+     const hashedPassword = await bcrypt.hash(req.body.password,salt);
      
      const newUser = new User({
           username: req.body.username,
-          password: req.body.password
+          email: req.body.email,
+          password: hashedPassword
      });
 
+     // POST
      try{
           const savedUser = await newUser.save();
           res.send(savedUser);
