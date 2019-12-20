@@ -22,7 +22,7 @@ app.use(express.json());
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 
-app.use('/register', registerRouter);
+app.use('/', registerRouter);
 app.use('/login', loginRouter);
 
 

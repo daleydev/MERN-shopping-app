@@ -11,7 +11,7 @@ const schema = Joi.object({
      password: Joi.string().min(6).required()
 })
 
-router.post('/', async (req,res) => {
+router.post('/register', async (req,res) => {
      // Validataion   
      const {error} = schema.validate(req.body);
      if (error) return res.status(400).send(error);

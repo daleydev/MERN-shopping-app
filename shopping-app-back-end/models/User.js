@@ -21,6 +21,10 @@ const userSchema = new Schema({
           min: 6,
           max: 30
      },
+     public: {
+          type: Boolean,
+          default: false
+     },
      createdDate: {
           type: Date,
           default: Date.now
