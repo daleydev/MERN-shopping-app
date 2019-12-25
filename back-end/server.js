@@ -21,9 +21,11 @@ app.use(express.json());
 // routes
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
+const profileRouter = require('./routes/profile')
 
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/profile', profileRouter);
 
 
 app.get('/',(req,res)=>res.send('home page'));

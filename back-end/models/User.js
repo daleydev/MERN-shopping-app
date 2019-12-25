@@ -23,7 +23,11 @@ const userSchema = new Schema({
      },
      public: {
           type: Boolean,
-          default: false
+          default: true
+     },
+     cart: {
+          type: Array,
+          default: []
      },
      createdDate: {
           type: Date,
