@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const productSchema = new Schema({
+const productSchema = new mongoose.Schema({
      name: {
           type: String,
           required : true,
@@ -13,7 +12,12 @@ const productSchema = new Schema({
      price:{
           required: true,
           type: Number
-     },   
+     },
+     public: {
+          required: true,
+          type: Boolean,
+          default: true
+     },
      stock: {
           required: true,
           type: Number
@@ -22,6 +26,7 @@ const productSchema = new Schema({
           type: String,
           required: true
      },
+     numOfSold: Number,
      createdDate: {
           type: Date,
           default: Date.now

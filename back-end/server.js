@@ -19,16 +19,20 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 
 // routes
+const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
-const profileRouter = require('./routes/profile')
+const profileRouter = require('./routes/profile');
+const storeRouter = require('./routes/store')
 
+app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/profile', profileRouter);
+app.use('/store', storeRouter);
 
 
-app.get('/',(req,res)=>res.send('home page'));
+// app.get('/',(req,res)=>res.send('home page'));
 // app.get('/users',(req,res)=>res.send('users page'));
 
 app.listen(PORT, ()=>{ console.log(`Server is running on port: ${PORT}`)});

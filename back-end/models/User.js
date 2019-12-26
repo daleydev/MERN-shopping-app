@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
      username: {
           type: String,
           required : true,
@@ -25,7 +24,12 @@ const userSchema = new Schema({
           type: Boolean,
           default: true
      },
+     image: String,
      cart: {
+          type: Array,
+          default: []
+     },
+     stores: {
           type: Array,
           default: []
      },
