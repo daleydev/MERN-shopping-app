@@ -1,85 +1,86 @@
-import React from "react";
-import { Link } from 'react-router-dom'
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import CardHeader from "@material-ui/core/CardHeader";
-import TextField from "@material-ui/core/TextField";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const useStyles = makeStyles({
-  card: {
-    minWidth: 275,
-    width: "500px",
-    margin: "auto",
-    marginTop: "100px",
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  },
-  button: {
-       margin: 'auto',
-       marginTop: '20px',
-       marginBottom: '40px',
-  },
-  registerLink: {
-     marginTop: '30px'
+export default function Login(props) {
+  const [state,setState] = useState({
+    email: 'gp1@mail.com',
+    password: '123456'
+  })
+  
+  console.log(state);
+
+  const inputOnChange = (e) => {
+    const name = e.target.name; 
+    const value = e.target.value;
+    return setState(state => ({...state, [name]: value }))
   }
 
-});
+  const  login = (e) => {
+    e.preventDefault();
 
-export default function SimpleCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+    fetch('http://localhost:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(state)
+    })
+    .then(res => console.log(res))
+    .then(data => console.log(data))
+    .catch(error => console.log(error))
+
+    props.history.push('/')
+  }
+
 
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <CardHeader title='Login'></CardHeader>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          <TextField
-            id='standard-password-input'
-            label='Email'
-            type='text'
-            autoComplete='current-password'
-          />
-        </Typography>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          <TextField
-            id='standard-password-input'
-            label='Password'
-            type='password'
-            autoComplete='current-password'
-          />
-        </Typography>
-        
-        <Typography className={classes.registerLink}  variant="body2" component="p">
-          <Link to='/register' >No account? Register here.</Link>
-        </Typography>
-      </CardContent>
-      <CardActions >
-        <Button className={classes.button} variant='contained' color='primary'>
-          Login
-        </Button>
-      </CardActions>
-    </Card>
+    <div className='container'>
+      <div class='card'>
+        <div class='card-body'>
+          <h5 class='card-title'>Login</h5>
+
+          <form>
+            <div class='form-group'>
+              <label for='exampleInputEmail1'>Email</label>
+              <input
+                type='email'
+                name='email'
+                class='form-control'
+                value={state.email}
+                aria-describedby='emailHelp'
+                onChange={(e)=> inputOnChange(e)}
+              />
+              <small id='emailHelp' class='form-text text-muted'>
+              </small>
+            </div>
+            <div class='form-group'>
+              <label for='exampleInputPassword1'>Password</label>
+              <input
+                type='password'
+                name='password'
+                class='form-control'
+                value={state.password}
+                id='exampleInputPassword1'
+                onChange={(e)=> inputOnChange(e)}
+              />
+            </div>
+            <div class='form-group form-check'>
+              <input
+                type='checkbox'
+                class='form-check-input'
+                id='exampleCheck1'
+              />
+              <label class='form-check-label' for='exampleCheck1'>
+                Check me out
+              </label>
+            </div>
+            <button type='submit' onClick={e => login(e)} class='btn btn-primary' >
+              Login
+            </button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,22 +1,31 @@
-// Imports
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 // ENV
 const dotenv = require('dotenv');
 dotenv.config();
-const mongoURL = process.env.DB_CONNECT;
 
 // Database
-mongoose.connect(mongoURL, {useNewUrlParser:true, useUnifiedTopology:true }, ()=>console.log('mongoDB is connected'));
-// const connection = mongoose.connection;
-// connection.once('open', ()=>{console.log('MongoDB is connected.')})
+const mongoURL = process.env.DB_CONNECT;
+const mongoConfig = {
+     useNewUrlParser:true,
+     useUnifiedTopology:true,
+     useCreateIndex: true,
+     useFindAndModify: false
+}
+
+mongoose.connect(mongoURL, mongoConfig);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', ()=>{console.log('MongoDB is connected.')});
 
 
 // App
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(express.json());
+app.use(cors());
 
 // routes
 const indexRouter = require('./routes/index');
@@ -32,7 +41,6 @@ app.use('/profile', profileRouter);
 app.use('/store', storeRouter);
 
 
-// app.get('/',(req,res)=>res.send('home page'));
-// app.get('/users',(req,res)=>res.send('users page'));
+
 
 app.listen(PORT, ()=>{ console.log(`Server is running on port: ${PORT}`)});

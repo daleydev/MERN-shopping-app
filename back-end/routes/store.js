@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const auth = require("./auth");
+const auth = require("../security/auth");
 const Store = require("../models/Store");
 const User = require("../models/User");
 
@@ -21,7 +21,7 @@ router.post("/create", auth, async (req, res) => {
     const user = await User.findByIdAndUpdate({ _id: currentUserId },{'$push': { "stores": newStore}})
     user.save();
     res.send(savedStore);
-    console.log(`store: ${req.body.name} is successfully registered`);
+    console.log(`store: ${req.body.name} is successfully created.`);
   } catch (err) {
     res.status(400).send(err);
   }
