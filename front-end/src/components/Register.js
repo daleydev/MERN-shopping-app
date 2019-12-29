@@ -1,97 +1,115 @@
-import React from "react";
-import { Link } from 'react-router-dom'
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import CardHeader from "@material-ui/core/CardHeader";
-import TextField from "@material-ui/core/TextField";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const useStyles = makeStyles({
-  card: {
-    minWidth: 275,
-    width: "500px",
-    margin: "auto",
-    marginTop: "100px",
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  },
-  button: {
-       margin: 'auto',
-       marginTop: '20px',
-       marginBottom: '40px',
-  },
-  registerLink: {
-     marginTop: '30px'
-  }
+export default function Register() {
+  const [state, setState] = useState({
+    username: "",
+    email: "",
+    password: ""
+  });
 
-});
+  console.log(state);
 
-export default function SimpleCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  const [inputState, setInputState] = useState({
+    isNameValid: true,
+    isEmailValid: true,
+    isPasswordValid: true
+  });
+
+  const onInput = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+    return setState(state => ({ ...state, [name]: value }));
+  };
+
+  const submitHandler = () => {
+    fetch("http://localhost:5000/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(state)
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
+
+    // props.history.push('/')
+  };
 
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <CardHeader title='Register'></CardHeader>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          <TextField
-            
-            label='Username'
-            type='text'
-            autoComplete='current-username'
-          />
-        </Typography>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          <TextField
-            
-            label='Email'
-            type='text'
-            autoComplete='current-email'
-          />
-        </Typography>
-        <Typography
-          className={classes.title}
-          color='textSecondary'
-          gutterBottom
-        >
-          <TextField
-            
-            label='Password'
-            type='password'
-            autoComplete='current-password'
-          />
-        </Typography>
-        
-        <Typography className={classes.registerLink}  variant="body2" component="p">
-          <Link to='/login' >Please login if you registered.</Link>
-        </Typography>
-      </CardContent>
-      <CardActions >
-        <Button className={classes.button} variant='contained' color='primary'>
-          Login
-        </Button>
-      </CardActions>
-    </Card>
+    <div className='section'>
+      <div class='card' style={{ maxWidth: "500px" }}>
+        <header class='card-header'>
+          <p class='card-header-title is-centered'>Registration</p>
+        </header>
+        <div class='card-content'>
+          <div class='content'>
+            <div class='field'>
+              <label class='label level-left'>Username</label>
+              <div class='control has-icons-left has-icons-right'>
+                <input
+                  class='input'
+                  name='username'
+                  type='text'
+                  onChange={e => onInput(e)}
+                />
+                <span class='icon is-small is-left'>
+                  <i class='fas fa-user'></i>
+                </span>
+              </div>
+            </div>
+
+            <div class='field'>
+              <label class='label level-left'>Email</label>
+              <div class='control has-icons-left has-icons-right'>
+                <input
+                  class='input'
+                  type='email'
+                  name='email'
+                  placeholder='example@mail.com'
+                  onChange={e => onInput(e)}
+                />
+                <span class='icon is-small is-left'>
+                  <i class='fas fa-envelope'></i>
+                </span>
+                {/* <span class='icon is-small is-right'>
+                  <i class='fas fa-exclamation-triangle'></i>
+                </span> */}
+              </div>
+              {/* <p class='help is-danger'>This email is invalid</p> */}
+            </div>
+
+            <div class='field'>
+              <label class='label level-left'>Password</label>
+              <div class='control has-icons-left'>
+                <input
+                  class='input'
+                  type='text'
+                  name='password'
+                  placeholder='your password'
+                  onChange={e => onInput(e)}
+                />
+                <span class='icon is-small is-left'>
+                  <i class='fas fa-key'></i>
+                </span>
+              </div>
+              <p class='help level-left'>Min length is 6 characters</p>
+            </div>
+          </div>
+        </div>
+        <footer class='card-footer'>
+          <a href='#' onClick={submitHandler} class='card-footer-item'>
+            Submit
+          </a>
+          <a href='#' class='card-footer-item'>
+            Login
+          </a>
+          <a href='/' class='card-footer-item'>
+            Cancel
+          </a>
+        </footer>
+      </div>
+    </div>
   );
 }

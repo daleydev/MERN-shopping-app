@@ -31,13 +31,13 @@ app.use(cors());
 const indexRouter = require('./routes/index');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
-const profileRouter = require('./routes/profile');
+const userRouter = require('./routes/user');
 const storeRouter = require('./routes/store')
 
 app.use('/', indexRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/profile', profileRouter);
+app.use('/api/user', userRouter);
 app.use('/api/store', storeRouter);
 
 

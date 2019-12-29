@@ -5,60 +5,58 @@ export default function Navbar() {
   const [state, setState] = useState({});
 
   return (
-    <nav class='navbar navbar-expand-lg navbar-dark bg-primary'>
-      <a class='navbar-brand' href='/'>
-        Home
-      </a>
-      <button
-        class='navbar-toggler'
-        type='button'
-        data-toggle='collapse'
-        data-target='#navbarSupportedContent'
-        aria-controls='navbarSupportedContent'
-        aria-expanded='false'
-        aria-label='Toggle navigation'
-      >
-        <span class='navbar-toggler-icon'></span>
-      </button>
+    <nav class='navbar' role='navigation' aria-label='main navigation'>
+      <div class='navbar-brand'>
+        <a class='navbar-item' href='https://bulma.io'>
+          <img
+            src='https://bulma.io/images/bulma-logo.png'
+            width='112'
+            height='28'
+          />
+        </a>
 
-      <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-        <ul class='navbar-nav mr-auto'>
-          <li class='nav-item active'>
-            <a class='nav-link' href='/login'>
-              Login
-            </a>
-          </li>
-          <li class='nav-item active'>
-            <a class='nav-link' href='/register'>
-              Register
-            </a>
-          </li>
-          <li class='nav-item dropdown'>
-            <a
-              class='nav-link dropdown-toggle'
-              href='#'
-              id='navbarDropdown'
-              role='button'
-              data-toggle='dropdown'
-              aria-haspopup='true'
-              aria-expanded='false'
-            >
-              Dropdown
-            </a>
-            <div class='dropdown-menu' aria-labelledby='navbarDropdown'>
-              <a class='dropdown-item' href='#'>
-                Action
-              </a>
-              <a class='dropdown-item' href='#'>
-                Another action
-              </a>
-              <div class='dropdown-divider'></div>
-              <a class='dropdown-item' href='#'>
-                Something else here
-              </a>
+        <a
+          role='button'
+          class='navbar-burger burger'
+          aria-label='menu'
+          aria-expanded='false'
+          data-target='navbarBasicExample'
+        >
+          <span aria-hidden='true'></span>
+          <span aria-hidden='true'></span>
+          <span aria-hidden='true'></span>
+        </a>
+      </div>
+
+      <div id='navbarBasicExample' class='navbar-menu'>
+        <div class='navbar-start'>
+          <a class='navbar-item' href='/'>Home</a>
+
+          <a class='navbar-item'>Documentation</a>
+
+          <div class='navbar-item has-dropdown is-hoverable'>
+            <a class='navbar-link'>More</a>
+
+            <div class='navbar-dropdown'>
+              <a class='navbar-item'>About</a>
+              <a class='navbar-item'>Jobs</a>
+              <a class='navbar-item'>Contact</a>
+              <hr class='navbar-divider' />
+              <a class='navbar-item'>Report an issue</a>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
+
+        <div class='navbar-end'>
+          <div class='navbar-item'>
+            <div class='buttons'>
+              <a class='button is-primary' href='/register'>
+                <strong>Sign up</strong>
+              </a>
+              <a class='button is-light' href='/login'>Log in</a>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
   );
