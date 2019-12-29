@@ -35,10 +35,10 @@ const profileRouter = require('./routes/profile');
 const storeRouter = require('./routes/store')
 
 app.use('/', indexRouter);
-app.use('/register', registerRouter);
-app.use('/login', loginRouter);
-app.use('/profile', profileRouter);
-app.use('/store', storeRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/store', storeRouter);
 
 
 

@@ -4,9 +4,7 @@ let User = require('../models/User');
 
 // Users Router
 router.get('/', async(req,res) => {
-     
-     const users = await User.find({ public: true });
-     res.send(users);
+     res.send('Welcome. This is home page');
 
      console.log(`index page loaded...`);
 })

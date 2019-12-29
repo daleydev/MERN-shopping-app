@@ -22,7 +22,7 @@ router.post('/', async (req,res) => {
      const validPass = await bcrypt.compare(req.body.password, user.password);
      if (!validPass) return res.status(400).send('Invalid password.')
      
-    const token = jwt.sign({_id: user._id}, process.env.JWT_TOKEN);
+    const token = jwt.sign({_id: user._id}, process.env.JWT_TOKEN, { expiresIn: '15m' });
     res.header('auth-token', token).send({token: token});
     console.log(`Login successfully. Your JWT token is "${token}"`);
 })
