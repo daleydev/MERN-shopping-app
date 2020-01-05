@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
       expiresIn: "15m"
     });
 
-    res.header("auth-token", token).send({ token: token });
+    res.header("auth-token", token).send({ success: true, token: token });
     console.log(
       `user: "${user.username}" Login successfully, the JWT token is "${token}"`
     );

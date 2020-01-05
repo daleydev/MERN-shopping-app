@@ -5,7 +5,7 @@ export default function Navbar() {
   const [state, setState] = useState({});
 
   return (
-    <nav class='navbar' role='navigation' aria-label='main navigation'>
+    <nav class='navbar' role='navigation' aria-label='main navigation' style={{}}>
       <div class='navbar-brand'>
         <a class='navbar-item' href='https://bulma.io'>
           <img
@@ -15,7 +15,7 @@ export default function Navbar() {
           />
         </a>
 
-        <a
+        {/* <a
           role='button'
           class='navbar-burger burger'
           aria-label='menu'
@@ -25,7 +25,7 @@ export default function Navbar() {
           <span aria-hidden='true'></span>
           <span aria-hidden='true'></span>
           <span aria-hidden='true'></span>
-        </a>
+        </a> */}
       </div>
 
       <div id='navbarBasicExample' class='navbar-menu'>
@@ -34,7 +34,7 @@ export default function Navbar() {
 
           <a class='navbar-item'>Documentation</a>
 
-          <div class='navbar-item has-dropdown is-hoverable'>
+          {/* <div class='navbar-item has-dropdown is-hoverable'>
             <a class='navbar-link'>More</a>
 
             <div class='navbar-dropdown'>
@@ -44,7 +44,7 @@ export default function Navbar() {
               <hr class='navbar-divider' />
               <a class='navbar-item'>Report an issue</a>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div class='navbar-end'>

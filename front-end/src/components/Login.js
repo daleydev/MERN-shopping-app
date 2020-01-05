@@ -1,44 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AppContext } from "../state/AppContext";
+import jwt from "jsonwebtoken";
 
 export default function Login(props) {
-  const [state,setState] = useState({
-    email: '',
-    password: '',
-  })
-  
-  console.log(state);
+  const [appState, setAppState] = useContext(AppContext);
+  console.log(appState);
+
+  const [loginState, setLoginState] = useState({
+    email: "",
+    password: "",
+    emailErrMessage: '',
+    passwordErrMessage: ''
+  });
 
   const onInput = e => {
     const name = e.target.name;
     const value = e.target.value;
-    return setState(state => ({ ...state, [name]: value }));
+
+    // validation
+    if (name === 'email'){
+      if (value !== '') {setLoginState(loginState => ({ ...loginState, emailErrMessage: '' }));}
+    }
+
+    if (name === 'password'){
+      if (value !== '') {setLoginState(state => ({ ...state, passwordErrMessage: '' }))}
+    }
+    return setLoginState(loginState => ({ ...loginState, [name]: value }));
   };
 
   const submitHandler = () => {
+    //validation
+    if (loginState.email === '') {
+      setLoginState(state => ({ ...state, emailErrMessage: 'Email connot be empty.' }))
+    }else if (!loginState.email.includes('@','.')){
+      setLoginState(state => ({ ...state, emailErrMessage: 'Wrong email format.' }))
+    };
+    
+    if (loginState.password === '') {setLoginState(state => ({ ...state, passwordErrMessage: 'Password connot be empty.' }))}
+
+
+    // submission
     fetch("http://localhost:5000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(state)
+      body: JSON.stringify({
+        email: loginState.email,
+        password: loginState.password
+      })
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+      .then(data => {
+        const deJwt = jwt.decode(data.token);
+        
+        setAppState(state => ({
+          ...state,
+          jwt: data.token,
+          login: true,
+          userId: deJwt._id
+        }));
 
-    // props.history.push('/')
+        return props.history.push('/');
+      })
+      .catch(error => console.log(error));
   };
 
   return (
     <div className='section'>
-      <div class='card' style={{ maxWidth: "500px" }}>
+      <div class='card' style={{ maxWidth: "500px", margin: "auto" }}>
         <header class='card-header'>
-          <p class='card-header-title is-centered'>Registration</p>
+          <p class='card-header-title is-centered'>Login</p>
         </header>
         <div class='card-content'>
           <div class='content'>
-            
             <div class='field'>
               <label class='label level-left'>Email</label>
               <div class='control has-icons-left has-icons-right'>
@@ -56,7 +92,7 @@ export default function Login(props) {
                   <i class='fas fa-exclamation-triangle'></i>
                 </span> */}
               </div>
-              {/* <p class='help is-danger'>This email is invalid</p> */}
+              <p class='help is-danger level-left'>{loginState.emailErrMessage}</p>
             </div>
 
             <div class='field'>
@@ -64,7 +100,7 @@ export default function Login(props) {
               <div class='control has-icons-left'>
                 <input
                   class='input'
-                  type='text'
+                  type='password'
                   name='password'
                   placeholder='your password'
                   onChange={e => onInput(e)}
@@ -73,21 +109,15 @@ export default function Login(props) {
                   <i class='fas fa-key'></i>
                 </span>
               </div>
-              <p class='help level-left'>Min length is 6 characters</p>
+              <p class='help is-danger level-left'>{loginState.passwordErrMessage}</p>
             </div>
+
+            <button class='button is-primary' onClick={submitHandler} style={{marginTop: '30px'}}>
+              Submit
+            </button>
           </div>
         </div>
-        <footer class='card-footer'>
-          <a href='#' onClick={submitHandler} class='card-footer-item'>
-            Submit
-          </a>
-          <a href='/register' class='card-footer-item'>
-            Register
-          </a>
-          <a href='/' class='card-footer-item'>
-            Cancel
-          </a>
-        </footer>
+        
       </div>
     </div>
   );

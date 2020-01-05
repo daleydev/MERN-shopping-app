@@ -1,45 +1,55 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function Register() {
-  const [state, setState] = useState({
+export default function Register(props) {
+  const [registerState, setRegisterState] = useState({
     username: "",
     email: "",
-    password: ""
+    password: "",
+    isSuccess: false
   });
 
-  console.log(state);
+  const [errState, setErrState] = useState("");
 
-  const [inputState, setInputState] = useState({
-    isNameValid: true,
-    isEmailValid: true,
-    isPasswordValid: true
-  });
+  console.log(registerState);
+  
+
+  const [inputState, setInputState] = useState(false);
 
   const onInput = e => {
     const name = e.target.name;
     const value = e.target.value;
-    return setState(state => ({ ...state, [name]: value }));
+    return setRegisterState(state => ({ ...state, [name]: value }));
   };
 
   const submitHandler = () => {
     fetch("http://localhost:5000/api/register", {
       method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(state)
+      body: JSON.stringify({
+        username: registerState.username,
+        email: registerState.email,
+        password: registerState.password
+      })
     })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        if (data.success) {
+          console.log('register success');
+          return setRegisterState(state => ({ ...state, isSuccess: true }));
+        }else{
+          console.log('register fail');
+        }
+      })
       .catch(error => console.log(error));
-
-    // props.history.push('/')
   };
 
   return (
-    <div className='section'>
-      <div class='card' style={{ maxWidth: "500px" }}>
+    <div className='section' style={{height:'100vh'}}>
+      <div class='card' style={{ maxWidth: "500px", margin: 'auto',  }}>
         <header class='card-header'>
           <p class='card-header-title is-centered'>Registration</p>
         </header>
@@ -52,7 +62,9 @@ export default function Register() {
                   class='input'
                   name='username'
                   type='text'
+                  placeholder='username'
                   onChange={e => onInput(e)}
+                  value={registerState.username}
                 />
                 <span class='icon is-small is-left'>
                   <i class='fas fa-user'></i>
@@ -69,6 +81,7 @@ export default function Register() {
                   name='email'
                   placeholder='example@mail.com'
                   onChange={e => onInput(e)}
+                  value={registerState.email}
                 />
                 <span class='icon is-small is-left'>
                   <i class='fas fa-envelope'></i>
@@ -85,10 +98,11 @@ export default function Register() {
               <div class='control has-icons-left'>
                 <input
                   class='input'
-                  type='text'
+                  type='password'
                   name='password'
-                  placeholder='your password'
+                  placeholder='password'
                   onChange={e => onInput(e)}
+                  value={registerState.password}
                 />
                 <span class='icon is-small is-left'>
                   <i class='fas fa-key'></i>
@@ -96,19 +110,20 @@ export default function Register() {
               </div>
               <p class='help level-left'>Min length is 6 characters</p>
             </div>
+
+            
+            <p class='help is-success' style={registerState.isSuccess ? {display:'block'}:{display:'none'}}>Register successfull. Please<a href='/login'>  login</a></p>
+            <button class='button is-primary' onClick={submitHandler} style={{marginTop: '30px'}}>
+              Submit
+            </button>
           </div>
         </div>
-        <footer class='card-footer'>
+        {/* <footer class='card-footer'>
           <a href='#' onClick={submitHandler} class='card-footer-item'>
             Submit
           </a>
-          <a href='#' class='card-footer-item'>
-            Login
-          </a>
-          <a href='/' class='card-footer-item'>
-            Cancel
-          </a>
-        </footer>
+
+        </footer> */}
       </div>
     </div>
   );

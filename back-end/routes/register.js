@@ -14,13 +14,14 @@ const schema = Joi.object({
 router.post('/', async (req,res) => {
      // Validataion   
      const {error} = schema.validate(req.body);
-     if (error) return res.status(400).send(error);
+     if (error) return res.status(400).send(error.message);
 
+     
      const emailExist = await User.findOne({ email: req.body.email });
-     if (emailExist) return res.status(400).send('Email already exists');
+     if (emailExist) return res.status(400).send({success: false,message: 'Email address is taken.'});
 
      const userNameExist = await User.findOne({ username: req.body.username });
-     if (userNameExist) return res.status(400).send('Username is taken');
+     if (userNameExist) return res.status(402).send('Username is taken');
      
      // Hashing password
      const salt = await bcrypt.genSalt(10);
@@ -36,7 +37,7 @@ router.post('/', async (req,res) => {
      // registration
      try{
           const savedUser = await newUser.save();
-          res.send(savedUser);
+          res.status(200).send({success: true, user: savedUser});
           console.log(`user: "${req.body.username}" is successfully registered`);
      }catch(err){
           res.status(400).send(err);
