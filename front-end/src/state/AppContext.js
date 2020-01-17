@@ -5,9 +5,7 @@ const AppContext = React.createContext([{}, () => {}]);
 
 const AppProvider = props => {
   const [state, setState] = useState({
-       jwt: '',
-       login: false,
-       
+       isLogin: false,     
   });
 
   return (

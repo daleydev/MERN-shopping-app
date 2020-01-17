@@ -58,7 +58,7 @@ export default function Login(props) {
         setAppState(state => ({
           ...state,
           jwt: data.token,
-          login: true,
+          isLogin: true,
           userId: deJwt._id
         }));
 

@@ -2,11 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
 
-// ENV
+// ENV setups
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Database
+// Database setups
 const mongoURL = process.env.DB_CONNECT;
 const mongoConfig = {
      useNewUrlParser:true,
@@ -21,7 +21,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', ()=>{console.log('MongoDB is connected.')});
 
 
-// App
+// App setups
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(express.json());
@@ -39,8 +39,6 @@ app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/user', userRouter);
 app.use('/api/store', storeRouter);
-
-
 
 
 app.listen(PORT, ()=>{ console.log(`Server is running on port: ${PORT}`)});
