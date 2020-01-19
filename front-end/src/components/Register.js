@@ -6,7 +6,8 @@ export default function Register(props) {
     username: "",
     email: "",
     password: "",
-    isSuccess: false
+    isSuccess: false,
+    isTaken: false
   });
 
   const [errState, setErrState] = useState("");
@@ -42,6 +43,7 @@ export default function Register(props) {
           return setRegisterState(state => ({ ...state, isSuccess: true }));
         }else{
           console.log('register fail');
+          return setRegisterState(state => ({ ...state, isTaken: true }));
         }
       })
       .catch(error => console.log(error));
@@ -112,7 +114,8 @@ export default function Register(props) {
             </div>
 
             
-            <p class='help is-success' style={registerState.isSuccess ? {display:'block'}:{display:'none'}}>Register successfull. Please<a href='/login'>  login</a></p>
+            <p class='help is-success' style={registerState.isSuccess ? {display:'block'}:{display:'none'}}>Register successfull. Please<a href='/login'> login</a></p>
+            <p class='help is-danger' style={registerState.isTaken ? {display:'block'}:{display:'none'}}>Username or Email is taken</p>
             <button class='button is-primary' onClick={submitHandler} style={{marginTop: '30px'}}>
               Submit
             </button>
