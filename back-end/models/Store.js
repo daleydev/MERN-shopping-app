@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const storeSchema = new mongoose.Schema({
      name: String,
      owner_id: String,
+     owner_name: String,
      logo: String,
      products: Array,
      public: {
