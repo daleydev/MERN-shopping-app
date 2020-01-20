@@ -10,7 +10,7 @@ export default function Navbar() {
     <Router>
       <nav style={{display:'', width:'100vw',border: '1px solid #ddd',height:'80px'}}>
         <span style={{fontSize:'30px',}}>
-          Shop Demo
+          <a href='/'>Shop Demo</a>
         </span>
         <span style={{float:'right'}}>
           <button>Login</button>

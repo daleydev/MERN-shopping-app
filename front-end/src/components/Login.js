@@ -62,7 +62,9 @@ export default function Login(props) {
           userId: deJwt._id
         }));
 
-        return props.history.push('/');
+        window.localStorage.setItem('state',JSON.stringify(appState));
+
+        return props.history.push('/profile');
       })
       .catch(error => console.log(error));
   };

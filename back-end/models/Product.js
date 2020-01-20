@@ -13,19 +13,24 @@ const productSchema = new mongoose.Schema({
           required: true,
           type: Number
      },
-     value: String,
-     img: String,
+     description: {
+          type: String,
+          min: 1,
+          max: 200
+     },
+     images: Array,
      public: {
           required: true,
           type: Boolean,
           default: true
      },
      stock: Number,
-     soldBy: {
+     store_id: {
           type: String,
           required: true
      },
-     numOfSold: Number,
+     sold: Number,
+     comments: Array,
      createdDate: {
           type: Date,
           default: Date.now

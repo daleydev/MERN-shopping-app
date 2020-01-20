@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
 const storeSchema = new mongoose.Schema({
-     name: String,
+     store_name: String,
      owner_id: String,
-     owner_name: String,
-     logo: String,
-     products: Array,
+     category: String,
+     logo_image: String,
+     products: {
+          type: Array,
+          default: []
+     },
      public: {
           type: Boolean,
           default: true
@@ -18,6 +21,6 @@ const storeSchema = new mongoose.Schema({
 }
 );
 
-const Product = mongoose.model('Store', storeSchema);
+const Store = mongoose.model('Store', storeSchema);
 
-module.exports = Product;
+module.exports = Store;

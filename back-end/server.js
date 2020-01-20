@@ -28,13 +28,13 @@ app.use(express.json());
 app.use(cors());
 
 // routes
-const indexRouter = require('./routes/index');
+const profileRouter = require('./routes/profile');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
 const userRouter = require('./routes/user');
 const storeRouter = require('./routes/store')
 
-app.use('/', indexRouter);
+app.use('/api/profile', profileRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/user', userRouter);

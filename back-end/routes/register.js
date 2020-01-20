@@ -16,7 +16,6 @@ router.post('/', async (req,res) => {
      const {error} = schema.validate(req.body);
      if (error) return res.status(400).send(error.message);
 
-     
      const emailExist = await User.findOne({ email: req.body.email });
      if (emailExist) return res.status(400).send({success: false,message: 'Email address is taken.'});
 

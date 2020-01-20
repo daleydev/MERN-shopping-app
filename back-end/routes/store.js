@@ -9,16 +9,22 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/create", auth, async (req, res) => {
-  const currentUserId = req.user._id;
+  const userId = req.body.id;
+
+  const storeExist = await Store.findOne({store_name: req.body.name});
+  if (storeExist) return res.status(400).send({success: false, message: 'store name is taken'});
+   
   const newStore = new Store({
-    name: req.body.name,
-    owner_id: currentUserId
+    store_name: req.body.name,
+    owner_id: userId,
+    category: req.body.category,
+    logo_image: req.body.image
   });
 
   // create store
   try {
     const savedStore = await newStore.save();
-    const user = await User.findByIdAndUpdate({ _id: currentUserId },{'$push': { "stores": newStore}})
+    const user = await User.findByIdAndUpdate({ _id: userId },{'$push': { "stores": newStore}})
     user.save();
     res.send(savedStore);
     console.log(`store: ${req.body.name} is successfully created.`);
