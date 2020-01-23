@@ -5,8 +5,7 @@ const AppContext = React.createContext([{}, () => {}]);
 
 const AppProvider = props => {
   const [state, setState] = useState({
-       isLogin: false, 
-           
+       isLogin: false,          
   });
 
   return (

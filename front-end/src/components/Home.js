@@ -1,43 +1,45 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { AppContext } from "../state/AppContext";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 
 export default function Home() {
   const [appState, setAppState] = useContext(AppContext);
   console.log(appState);
-  
+
+  const getStateFromStorage = () => {
+    const localState = window.localStorage.getItem('state');
+    const sessionState = window.sessionStorage.getItem('state');
+    console.log(localState);
+    console.log(sessionState);
+    
+    if (localState) {
+      const localStateObj = JSON.parse(localState);
+      return setAppState(state => ({
+        ...state,
+        ...localStateObj
+      }));
+    }
+
+    if(sessionState){
+      const sessionStateObj = JSON.parse(sessionState);
+      return setAppState(state => ({
+        ...state,
+        ...sessionStateObj
+      }));
+    }
+  }
+
+  useEffect(()=>{
+    getStateFromStorage()
+  },[])
+
   return (
-    <div className='container'>
-      {/* jumbotron */}
-      <div class='jumbotron mt-4'>
-        <h1 class='display-4'>Welcome</h1>
-        <p class='lead'>This is a simple shopping site demo.</p>
-        <hr class='my-4' />
-
-        {/* not login */}
-        <div style={ appState.isLogin ? {display:'none'} : {display:'block'}}>
-          <p className='mb-3'>You can be customer or seller, or both!</p>
-          <Link to='/register' className='btn btn-primary btn-lg' role='button' >
-            Sign up now
-          </Link>
-          <span className='mx-3'> Or </span>
-          <Link to='/login' className='btn btn-primary btn-lg' role='button'>
-            Sign in
-          </Link>
+    <div className=''>
+      <div className='home-section'>
+        <div className='home-intro'>
+          <div className='home-primary-text'>Welcome</div>
+          <div className='home-secondary-text'>Shop online or Ship online.</div>
         </div>
-
-        {/* login */}
-        <div style={ appState.isLogin ? {display:'block'} : {display:'none'}}>
-          <p className='mb-3'>You can be customer or seller, or both!</p>
-          <Link to='/register' className='btn btn-primary btn-lg' role='button' >
-            Buy
-          </Link>
-          <span className='mx-3'> Or </span>
-          <Link to='/login' className='btn btn-primary btn-lg' role='button'>
-            Sell
-          </Link>
-        </div>
-        {/* <button onClick={() => window.location.reload(true)}>Click to reload!</button> */}
       </div>
 
       <div
